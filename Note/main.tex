@@ -1,0 +1,108 @@
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{bbding}
+
+\geometry{a4paper, left=1.45cm, right=1.45cm, top=1.45cm, bottom=1.45cm}
+\geometry{hcentering}
+
+\lstdefinelanguage{Pseudocode}{
+    keywords = {IF, ELSEIF, ELSE, THEN, ENDIF, FOR, ENDFOR, WHILE, ENDWHILE, FROM, TO, DO, END, Function, return, true, false, NOT, INPUT, OUTPUT, None},
+    comment = [l]{//},
+    morecomment = [s]{/*}{*/}
+}
+
+\lstdefinestyle{Pseudocode}{
+    language        =   Pseudocode,
+    basicstyle      =   \ttfamily\footnotesize,
+    keywordstyle    =   \rmfamily\tiny\bfseries\underbar,
+    stringstyle     =   \itshape,
+    commentstyle    =   \itshape,
+    numbers         =   left,
+    numberstyle     =   \tiny,
+    numbersep       =   1em,
+    breaklines      =   true,
+    columns         =   flexible,
+    frame           =   tb,
+    framesep        =   0.5em,
+    basewidth       =   0.3em,
+    tabsize         =   4,
+}
+
+\lstdefinestyle{Python}{
+    language        =   Python,
+    basicstyle      =   \ttfamily\footnotesize,
+    keywordstyle    =   \rmfamily\bfseries,
+    stringstyle     =   \itshape,
+    commentstyle    =   \itshape,
+    numbers         =   left,
+    numberstyle     =   \tiny,
+    numbersep       =   1em,
+    breaklines      =   true,
+    columns         =   flexible,
+    frame           =   tb,
+    framesep        =   0.5em,
+    basewidth       =   0.3em,
+    tabsize         =   4,
+}
+
+\lstdefinestyle{Cpp}{
+    language        =   C++,
+    basicstyle      =   \ttfamily\footnotesize,
+    keywordstyle    =   \rmfamily\bfseries,
+    stringstyle     =   \itshape,
+    commentstyle    =   \itshape,
+    numbers         =   left,
+    numberstyle     =   \tiny,
+    numbersep       =   1em,
+    breaklines      =   true,
+    columns         =   flexible,
+    frame           =   tb,
+    framesep        =   0.5em,
+    basewidth       =   0.3em,
+    tabsize         =   4,
+}
+
+\lstdefinestyle{MATLAB}{
+    language        =   MATLAB,
+    basicstyle      =   \ttfamily\footnotesize,
+    keywordstyle    =   \rmfamily\bfseries,
+    stringstyle     =   \itshape,
+    commentstyle    =   \itshape,
+    numbers         =   left,
+    numberstyle     =   \tiny,
+    numbersep       =   1em,
+    breaklines      =   true,
+    columns         =   flexible,
+    frame           =   tb,
+    framesep        =   0.5em,
+    basewidth       =   0.3em,
+    tabsize         =   4,
+}
+
+
+\title{算法竞赛笔记}
+\author{Chunyin Chan}
+
+\begin{document}
+\begin{sloppy}
+    \maketitle
+    \setcounter{page}{0}
+    \thispagestyle{empty}
+
+    \newpage
+    \setcounter{page}{0}
+    \tableofcontents
+    \thispagestyle{empty}
+
+    \include{./chap1/chap1}
+    
+
+
+\end{sloppy}
+\end{document}
