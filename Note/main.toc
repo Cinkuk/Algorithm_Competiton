@@ -1,1 +1,5 @@
-\contentsline {section}{\numberline {1}基础数据结构}{1}{}%
+\contentsline {section}{\numberline {1}基础数据结构}{0}{}%
+\contentsline {subsection}{\numberline {1.1}Link List}{0}{}%
+\contentsline {subsubsection}{\numberline {1.1.1}link list in python:}{0}{}%
+\contentsline {subsection}{\numberline {1.2}Queue}{4}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Queue in Python}{4}{}%
