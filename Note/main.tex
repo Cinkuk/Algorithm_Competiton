@@ -1,6 +1,5 @@
-\special{dvipdfmx:config z 0}
-
 \documentclass{ctexart}
+
 \usepackage{graphicx} % Required for inserting images
 \usepackage{listings}
 \usepackage{geometry}
@@ -513,6 +512,49 @@
     对于 $50\%$ 的数据，$1 \le n \le 10^5$；  
     对于 $100\%$ 的数据，$1\le k \le n \le 10^6$，$a_i \in [-2^{31},2^{31})$。
     \end{markdown}
+
+    \begin{lstlisting}[style = Python]
+    from collections import deque
+    from array import array
+    import sys
+
+    # input 
+    n, k = map(int, input().split())
+    a = list(map(int, input().split()))
+
+    min_q = deque()
+    max_q = deque()
+    min_rst = []
+    max_rst = []
+
+    for i in range(n):
+        # minimum queue
+        while min_q and a[min_q[-1]] > a[i]:
+            min_q.pop()
+        min_q.append(i)
+        # maximum queue
+        while max_q and a[max_q[-1]] < a[i]:
+            max_q.pop()
+        max_q.append(i)
+
+        # 开始记录
+        if i >= k - 1:
+            min_rst.append(a[min_q[0]])
+            max_rst.append(a[max_q[0]])
+        
+        # 弹出窗口外的元素
+        if min_q and min_q[0] <= i - k + 1:
+            min_q.popleft()
+        if max_q and max_q[0] <= i - k + 1:
+            max_q.popleft()
+
+    # output
+    print(' '.join(map(str, min_rst)))
+    print(' '.join(map(str, max_rst)))
+    \end{lstlisting}
+
+    
+    
 
 
 
