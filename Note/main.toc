@@ -11,3 +11,4 @@
 \contentsline {subsubsection}{\numberline {1.4.1}DFS遍历}{10}{}%
 \contentsline {subsubsection}{\numberline {1.4.2}哈夫曼编码}{11}{}%
 \contentsline {subsection}{\numberline {1.5}Heap in Python}{12}{}%
+\contentsline {section}{\numberline {2}基本算法}{14}{}%
