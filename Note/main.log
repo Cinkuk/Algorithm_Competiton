@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  26 FEB 2025 20:23
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  26 FEB 2025 21:45
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -606,7 +606,7 @@ LaTeX Font Warning: Font shape `TU/FandolFang-Regular(0)/m/it' undefined
 (Font)              using `TU/FandolFang-Regular(0)/m/n' instead on input line 48.
 
 LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937> not available
-(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 80.
+(Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 76.
 [1] [2] [3] [4]
 
 Package fontspec Warning: Font "FandolHei-Regular" does not contain requested
@@ -627,12 +627,7 @@ Package fontspec Info: Font family 'FandolHei-Regular(0)' created for font
 (fontspec)             <->"[FandolHei-Bold.otf]/OT:language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
-[5] [6] [7] [8] [9] [10] [11] [12]
-Overfull \hbox (10.65611pt too wide) in paragraph at lines 934--934
-[]\TU/lmtt/m/n/10.53937 -  \TU/FandolFang-Regular(0)/m/n/10.53937 对 于  \TU/lmtt/m/n/10.53937 $100\%$  \TU/FandolFang-Regular(0)/m/n/10.53937 的 数 据 ， 保 证  \TU/lmtt/m/n/10.53937 $1 \leq n \leq 10^6$ \TU/FandolFang-Regular(0)/m/n/10.53937 ， \TU/lmtt/m/n/10.53937 $1 \leq x \lt 2^{31}$ \TU/FandolFang-Regular(0)/m/n/10.53937 ， \TU/lmtt/m/n/10.53937 $op \in \{1, 2, 3\}$ \TU/FandolFang-Regular(0)/m/n/10.53937 。 [] 
- []
-
-[13]) (./chap2/chap2.tex) [14] (./main.aux)
+[5] [6] [7] [8] [9] [10] [11] [12] [13]) [14] (./chap2/chap2.tex [15] [16] [17]) [18] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
@@ -643,12 +638,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 15419 strings out of 474773
- 389242 string characters out of 5757724
- 2131839 words of memory out of 5000000
- 37270 multiletter control sequences out of 15000+600000
+ 15457 strings out of 474773
+ 391826 string characters out of 5757724
+ 2168839 words of memory out of 5000000
+ 37308 multiletter control sequences out of 15000+600000
  573260 words of font info for 134 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 101i,9n,103p,339b,1944s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,9n,103p,339b,1874s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (16 pages).
+Output written on main.pdf (20 pages).

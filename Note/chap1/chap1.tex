@@ -14,7 +14,7 @@ class nodes:
 \textbf{EX 1} 
 
 
-洛谷 P1996 约瑟夫问题
+\textbf{洛谷 P1996 约瑟夫问题}
 
 题目描述
 
@@ -73,6 +73,7 @@ n 个人围成一圈，从第一个人开始报数,数到 m 的人出列，再�
         now = now.next
 \end{lstlisting}
 
+\newpage
 \begin{lstlisting}[style = Python]
     # 列表和索引计算
     n, m = map(int, input().split())
@@ -90,7 +91,7 @@ n 个人围成一圈，从第一个人开始报数,数到 m 的人出列，再�
 \textbf{EX 2}
 
 
-洛谷 P1160 队列安排
+\textbf{洛谷 P1160 队列安排}
 
 题目描述
 
@@ -223,6 +224,7 @@ n 个人围成一圈，从第一个人开始报数,数到 m 的人出列，再�
         head = head.next
 \end{lstlisting}
 
+\newpage
 \subsection{Queue in Python}
 
 \subsubsection{双端队列}
@@ -254,7 +256,7 @@ queue.index(x) # return first match position, raise error if not found
 
 \textbf{EX 1}
 
-洛谷 P1540 [NOIP 2010 提高组] 机器翻译
+\textbf{洛谷 P1540 [NOIP 2010 提高组] 机器翻译}
 
 题目背景
 
@@ -338,7 +340,7 @@ print(count)
 
 \subsubsection{单调队列}
 
-洛谷 P1886 滑动窗口 /【模板】单调队列
+\textbf{洛谷 P1886 滑动窗口 /【模板】单调队列}
 
 题目描述
 
@@ -434,7 +436,7 @@ print(' '.join(map(str, max_rst)))
 
 Problem Description
 
-给定一个序列, 给定一个最大长度m, 求一段长度不超过m的连续子序列, 使其子序和最大
+\textbf{给定一个序列, 给定一个最大长度m, 求一段长度不超过m的连续子序列, 使其子序和最大}
  
 
 Input
@@ -517,7 +519,7 @@ for i in range(1, n):
 print(ans)
 \end{lstlisting}
 
-
+\newpage
 \subsubsection{优先队列}
 
 \begin{lstlisting}[style = Python]
@@ -553,7 +555,7 @@ q.get()
 
 hdu 1062
 
-翻转字符串
+\textbf{翻转字符串}
 
 input:
 
@@ -576,9 +578,10 @@ from collections import deque
         print(' ', end='')
 \end{lstlisting}
 
+\newpage
 \subsubsection{单调栈}
 
-洛谷 P2947 [USACO09MAR] Look Up S
+\textbf{洛谷 P2947 [USACO09MAR] Look Up S}
 
 题目描述
 
@@ -719,6 +722,7 @@ def postorder(node):
     print(node.val, end=' ')
 \end{lstlisting}
 
+\newpage
 \begin{lstlisting}[style = Python]
 # pre
 def preorder(node):
@@ -767,6 +771,8 @@ A B C D E F G H I
 A C D B F H I G E 
 \end{lstlisting}
 
+\newpage
+\textbf{根据前序和中序遍历输出后序遍历结果}
 \begin{lstlisting}[style = Python]
 n = int(input())
 global pre_tra
@@ -811,22 +817,26 @@ postorder(root)
 
 \subsubsection{哈夫曼编码}
 
-\begin{verbatim}
 poj 1521
 
 Question:
-输入一个字符串, 分别输出ASCII(8bit / character)和哈夫曼编码的长度, 以及压缩比
+\textbf{输入一个字符串, 分别输出ASCII(8bit / character)和哈夫曼编码的长度, 以及压缩比}
 
 Sample Input
+
 AAAAABCD
-THE_CAT_IN_THE_HAT
+
+THE\_CAT\_IN\_THE\_HAT
+
 END
 
 Sample Output
-64 13 4.9
-144 51 2.8
-\end{verbatim}
 
+64 13 4.9
+
+144 51 2.8
+
+\newpage
 \begin{lstlisting}[style = Python]
 from queue import PriorityQueue
 s = input()
@@ -886,23 +896,28 @@ print(heapq.heappushpop(lst, 4))
 print(lst)
 \end{lstlisting}
 
-\begin{verbatim}
-P3378 【模板】堆
+\textbf{P3378 【模板】堆}
 
 题目描述
 
 给定一个数列，初始为空，请支持下面三种操作：
 
 1. 给定一个整数 $x$，请将 $x$ 加入到数列中。
+
 2. 输出数列中最小的数。
+
 3. 删除数列中最小的数（如果有多个数最小，只删除 $1$ 个）。
 
 输入格式
 
 第一行是一个整数，表示操作的次数 $n$。  
+
 接下来 $n$ 行，每行表示一次操作。每行首先有一个整数 $op$ 表示操作类型。
+
 - 若 $op = 1$，则后面有一个整数 $x$，表示要将 $x$ 加入数列。
+
 - 若 $op = 2$，则表示要求输出数列中的最小数。
+
 - 若 $op = 3$，则表示删除数列中的最小数。如果有多个数最小，只删除 $1$ 个。
 
 输出格式
@@ -914,24 +929,33 @@ P3378 【模板】堆
 输入 1
 
 5
+
 1 2
+
 1 5
+
 2
+
 3
+
 2
 
 输出 1
 
 2
+
 5
 
 说明/提示
 
 【数据规模与约定】
+
 - 对于 $30\%$ 的数据，保证 $n \leq 15$。
+
 - 对于 $70\%$ 的数据，保证 $n \leq 10^4$。
-- 对于 $100\%$ 的数据，保证 $1 \leq n \leq 10^6$，$1 \leq x \lt 2^{31}$，$op \in \{1, 2, 3\}$。
-\end{verbatim}
+
+- 对于 $100\%$ 的数据，保证 $1 \leq n \leq 10^6$，$1 \leq x < 2^{31}$，$op \in \{1, 2, 3\}$。
+
 
 \begin{lstlisting}[style = Python]
 import heapq
