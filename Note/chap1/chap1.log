@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  26 FEB 2025 15:40
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  26 FEB 2025 20:18
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -629,7 +629,7 @@ Package fontspec Info: Font family 'FandolHei-Regular(0)' created for font
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 [5] [6] [7] [8] [9] [10] [11] [12]
-Overfull \hbox (10.65611pt too wide) in paragraph at lines 925--925
+Overfull \hbox (10.65611pt too wide) in paragraph at lines 934--934
 []\TU/lmtt/m/n/10.53937 -  \TU/FandolFang-Regular(0)/m/n/10.53937 对 于  \TU/lmtt/m/n/10.53937 $100\%$  \TU/FandolFang-Regular(0)/m/n/10.53937 的 数 据 ， 保 证  \TU/lmtt/m/n/10.53937 $1 \leq n \leq 10^6$ \TU/FandolFang-Regular(0)/m/n/10.53937 ， \TU/lmtt/m/n/10.53937 $1 \leq x \lt 2^{31}$ \TU/FandolFang-Regular(0)/m/n/10.53937 ， \TU/lmtt/m/n/10.53937 $op \in \{1, 2, 3\}$ \TU/FandolFang-Regular(0)/m/n/10.53937 。 [] 
  []
 
@@ -646,7 +646,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  15363 strings out of 474773
  388496 string characters out of 5757724
- 2155839 words of memory out of 5000000
+ 2131839 words of memory out of 5000000
  37239 multiletter control sequences out of 15000+600000
  565811 words of font info for 102 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

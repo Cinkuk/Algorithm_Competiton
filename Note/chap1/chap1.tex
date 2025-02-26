@@ -471,41 +471,50 @@ Output
 
 5
 
-\begin{lstlisting}[style = Python]
-    # 洛谷 P1714
+Case 3
 
-    from collections import deque
-    
-    n, m = map(int, input().split())
-    a = list(map(int, input().split()))
-    s = [a[0]] # 前缀和
-    dp = deque()
-    ans = a[0]
-    
-    # 计算前缀和
-    for i in range(1, n):
-        s.append(s[i-1] + a[i])
-    # 动态规划表
-    dp.append(0)
-    for i in range(1, n):
-        # 队头越界
-        while len(dp) > 0 and dp[0] < i - m:
-            dp.popleft()
-        if len(dp) == 0:
-            ans = max(ans, s[i])
-        else:
-            # 此时队头时最小的s[k]
-            ans = max(ans, s[i] - s[dp[0]])
-        # 去尾
-        # 由于要求最大子序和, 当s[i] <= s[j]时, 抛弃所有s[j]
-        # 这样可以使得s[x] - s[i] >= s[x] - s[j]
-        while len(dp) > 0 and s[dp[-1]] >= s[i]:
-            dp.pop()
-        dp.append(i)
-        
+Input
+
+5 5
+
+1 2 3 4 5
+
+Output
+
+15
+
+\begin{lstlisting}[style = Python]
+# 洛谷 P1714
+
+from collections import deque
+n, m = map(int, input().split())
+s = list(map(int, input().split())) # 前缀和
+dp = deque()
+ans = s[0]
+
+# 计算前缀和
+for i in range(1, n):
+    s[i] = s[i-1] + s[i]
+# 单调队列
+dp.append(0)
+for i in range(1, n):
+    # 去头
+    while len(dp) > 0 and dp[0] < i- m:
+        dp.popleft()
+    # 去尾, 去除>=s[i]的元素, 使得s[j] - s[i]更大
+    while len(dp) > 0 and s[dp[-1]] >= s[i]:
+        dp.pop()
+    dp.append(i)
     if len(dp) == n:
-        ans = max(ans, s[-1])
-    print(ans)
+        ans = max(ans, s[i])
+    elif len(dp) > 1:
+        ans = max(ans, s[i] - s[dp[0]])
+    elif len(dp) == 1:
+        ans = max(ans, s[dp[0]])
+    else:
+        ans = max(ans, s[i])
+    
+print(ans)
 \end{lstlisting}
 
 
