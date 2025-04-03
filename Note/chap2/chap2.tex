@@ -196,6 +196,8 @@ print(unique_a)
 \newpage
 \textbf{找相同数对}
 
+洛谷 P1102
+
 给出一串数字和一个数字C, 要求计算出所有A - B = C的数对的个数(不同位置的数字一样的数对算不同的数对)
 
 输入: 2行, 第1行输入整数n和C, 第2行输入n个整数
@@ -231,6 +233,482 @@ for i in range(n):
         ans += k - j
 print(ans)
 \end{lstlisting}
+
+\newpage
+
+\subsection{二分法}
+
+\subsubsection{Python二分搜索库\ bisect}
+
+\begin{lstlisting}[style = Python]
+from bisect import *
+def fun(find, x, bias=0):
+    global a
+    index = find(a, x) + bias
+    print("index: {}, element: {}".format(index, a[index]))
+
+global a
+a = [1, 2, 4, 4, 4, 5]
+# target: x
+x = 4
+
+# first > x
+fun(bisect_right, x)
+# first >= x
+fun(bisect_left, x)
+# first = x
+fun(bisect_left, x)
+# last = x
+fun(bisect_right, x, bias=-1)
+# last <= x
+fun(bisect_right, 3, bias=-1)
+# last < x
+fun(bisect_left, x, bias=-1)
+# count x in a monotonic array
+# slow
+print(a.count(x))
+# fast, using binary search
+print(bisect_right(a, x) - bisect_left(a, x))
+\end{lstlisting}
+
+\textbf{output}
+
+\begin{lstlisting}[style = Pseudocode]
+index: 5, element: 5
+index: 2, element: 4
+index: 2, element: 4
+index: 4, element: 4
+index: 1, element: 2
+index: 1, element: 2
+3
+3
+\end{lstlisting}
+
+\subsubsection{整数二分}
+
+\textbf{需要注意终止边界和左右区间问题, 避免漏解和死循环}
+
+\indent\par
+
+\textbf{mid的计算}
+
+\begin{lstlisting}[style = Python]
+# 适用单调递增序列的后继问题
+mid = l + (r - l) // 2 # 相当于计算出的mid向下取整, 计算的是左中位数
+# 适用单调递增序列的前驱问题
+mid = l + (r - l + 1) // 2 # 相当于计算出的mid向上取整, 计算的是右中位数
+\end{lstlisting}
+
+\newpage
+
+\textbf{在单调递增序列中寻找x或x的后继}
+
+在单调递增序列中寻找第一个x的位置, 若没有x, 则寻找比x大的第一个数的位置, 即寻找第一个$
+>= x$的位置
+
+\begin{lstlisting}[style = Python]
+# 左闭右开[0, n)
+l, r = 0, n
+while l < r:
+    mid = l + (r - l) // 2
+    if a[mid] >= x:
+        r = mid
+    else:
+        l = mid + 1
+return l
+\end{lstlisting}
+
+\textbf{在单调递增序列中寻找x或x的前驱}
+
+在单调递增序列中寻找第一个x的位置, 若没有x, 则寻找比x小的第一个数的位置, 即寻找第一个$<=x$的位置
+
+\begin{lstlisting}[style = Python]
+# 左开右闭(-1, n-1]
+l, r = -1, n - 1
+while l < r:
+    mid = l + (r - l + 1) // 2
+    if a[mid] <= x:
+        l = mid
+    else:
+        r = mid - 1
+return l
+\end{lstlisting}
+
+\textbf{寻找minimum}
+
+\begin{lstlisting}[style = Python]
+while l < r:
+mid = l + (l - r) // 2
+if check(mid):
+    # reduce
+    r = mid
+else:
+    # enlarge
+    l = mid + 1
+# 若r = mid - 1, 则当best=mid时可能遗漏最优解
+\end{lstlisting}
+
+\newpage
+
+\textbf{寻找指定和的整数对}
+
+输入n ($n <= 100000$) 个整数, 找出其中的两个数, 使它们之和等于整数m, 假设肯定有解
+
+\begin{lstlisting}[style = Python]
+from bisect import *
+
+a = list(map(int, input().split()))
+m = int(input())
+n = len(a)
+a.sort()
+
+# ver. 1
+for i in range(n-1):
+    # bisearch, a[k] = m - a[i]
+    l, r = i+1, n
+    x = m - a[i]
+    while l < r:
+        mid = l + (r - l) // 2
+        if a[mid] >= x:
+            r = mid
+        else:
+            l = mid + 1
+    if a[l] == x:
+        print("{} {}".format(a[i], a[l]))
+
+# ver. 2
+for i in range(n-1):
+    # bisearch, a[k] = m - a[i]
+    x = m - a[i]
+    # search from a[i+1] to a[end-]
+    p = bisect_left(a, x, lo=i+1, hi=n)
+    if a[p] == x:
+        print("{} {}".format(a[i], a[p]))
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{整数二分\ 最大值最小化}
+
+\textbf{序列划分: 二分 + 贪心}
+
+给定一个序列, 如\{2, 2, 3, 4, 5, 1\}, 将其划分为m个连续的子序列$S_1, S_2, S_3$, 每个子序列至少有一个元素, 使得每个子序列的和的最大值最小
+
+EX. m = 3
+
+划分为(2, 2, 3), (4, 5), (1) 子序列和分别为7, 9, 1, 最大值为9
+
+划分为(2, 2, 3), (4), (5, 1) 子序列和为7, 4, 6, 最大值为7, 优于前一个
+
+\begin{lstlisting}[style = Python]
+# Input:
+# array
+# m: amount of subarray
+# Output:
+# x: minimum of maximum of sum(all possible subarrays)
+# subarrays
+
+from bisect import *
+
+a = list(map(int, input().split()))
+m = int(input())
+n = len(a)
+l, r = max(a), sum(a)
+subs = []
+
+while l < r:
+    mid = l + (r - l) // 2
+    # greedy divide subarray
+    # each sum(subarray) <= mid
+    flag = False
+    idx = 0
+    subs = []
+    for i in range(m):
+        sum = 0
+        while idx < n and sum + a[idx] <= mid:
+            sum += a[idx]
+            idx +=1
+        if idx == n or sum + a[idx] > mid:
+            subs.append(idx-1)
+    # judge
+    if subs[-1] < n-1:
+        flag = False
+    else:
+        flag = True
+    # binary control
+    if flag:
+        # reduce
+        r = mid
+    else:
+        # enlarge
+        l = mid + 1
+
+print('minimum sum: ', l)
+for i in range(m):
+    if i == 0:
+        print(a[ : subs[0]+1])
+    else:
+        print(a[subs[i-1]+1 : subs[i]+1])
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{整数二分\ 最小值最大化}
+
+\textbf{洛谷P1824 进击的奶牛}
+
+在一条很长的直线上, 指定n个坐标点. 有c头牛, 每头牛占据一个坐标点, 求相邻两头牛之间距离的最大值
+
+Input:
+
+第1行输入: n c
+
+第2行开始每行输入: 一个整数, 表示每个点的坐标
+
+\begin{lstlisting}[style = Python]
+n, c = map(int, input().split())
+x = []
+for i in range(n):
+    x.append(int(input()))
+x.sort()
+
+def check(x, dis, c):
+    i = 1
+    last = 0
+    c -= 1
+    while c > 0 and i < len(x):
+        while i < len(x) and x[i] - x[last] < dis:
+            i += 1
+        if i < len(x) and x[i] - x[last] >= dis:
+            c -= 1
+            last = i
+            i += 1
+    if c == 0:
+        return True
+    else:
+        return False
+
+l, r = 0, x[-1] - x[0]
+ans = 0
+while l < r:
+    mid = l + (r - l) // 2
+    if check(x, mid, c):
+        ans = mid
+        l = mid + 1
+    else:
+        r = mid
+print(ans)
+\end{lstlisting}
+
+\subsubsection{实数二分}
+
+\textbf{for控制}: 过大的for次数会超时, 过小的会导致精度不够答案错误. 一般取100, 但是循环体内计算量大的时候容易超时, 可以缩减到50
+
+\textbf{while控制}: while需要设计精度eps, 过小的eps会超时, 过大的会导致精度不够答案错误
+
+\begin{lstlisting}[style = Python]
+# 精度, 可以调整
+eps = 1e-7
+while r - l > eps:
+# for ver.
+# epoch = 100 # 轮次
+# for i in range(epochs):
+    mid = l + (r - l) / 2.0
+    if check(mid):
+        # reduce range
+        r = mid
+    else:
+        # enlarge range
+        l = mid
+return l
+\end{lstlisting}
+
+\newpage
+
+\textbf{分蛋糕 poj 3122}
+
+m+1个人分n个半径不同的蛋糕, 要求每个人分得的蛋糕重量一致, 且必须是可以切出来的一整块, 每个人能分到的最大蛋糕是多少.
+
+Input:
+
+第一行: 1个整数, 表示测试用例个数
+
+对每个测试, 第一行输入n, m. 第二行输入n个整数, 表示每个蛋糕的半径
+
+Output:
+
+对于每个测试, 输出一个答案, 保留4位小数
+
+可以将问题建模为最小值最大化问题, 用面积代替重量
+
+\textbf{保留小数}
+
+\begin{lstlisting}[style = Python]
+a = 1.13456 # float
+ans = format(a, '.4f) # 四舍五入保留4位小数
+\end{lstlisting}
+
+\begin{lstlisting}[style = Python]
+def check(mid, area, f):
+    sum = 0
+    for i in range(len(area)):
+        sum += int(area[i] / mid)
+    if sum >= f:
+        return True
+    else:
+        return False
+
+eps = 1e-5
+pi = 3.1415926
+T = int(input())
+for t in range(T):
+    n, f = map(int, input().split())
+    cakes = list(map(float, input().split()))
+    maxx = 0
+    area = []
+    for i in range(n):
+        area.append(pi * cakes[i] * cakes[i])
+        if area[i] > maxx:
+            maxx = area[i]
+    l, r = 0, maxx
+    while r - l > eps:
+        mid = l + (r - l) / 2.0
+        if check(mid, area, f):
+            l = mid
+        else:
+            r = mid
+    ans = format(l, '.4f')
+    print(ans)
+\end{lstlisting}
+
+\subsection{三分法}
+
+用于求取单峰函数的极值. 通过在[l, r]内取两个点\textbf{mid1, mid2}, 将函数分为\textbf{三段}
+
+\begin{lstlisting}[style = Python]
+k = (r - l) / 3.0
+mid1, mid2 = l + k, r - k
+\end{lstlisting}
+
+\newpage
+
+\textbf{三分法模板\ 洛谷P3382}
+
+给出一个N次多项式函数, 保证在区间[l, r]内存在一点x, 使得x是函数在区间上的极大值, 求出x
+
+Input:
+
+第一行输入n: N l r
+
+第二行输入: N + 1个实数, 表示从高到低各项的系数
+
+Output:
+
+x, 四舍五入保留5位小数
+
+\begin{lstlisting}[style = Python]
+n, l, r = map(float, input().split())
+n = int(n)
+cons = list(map(float, input().split()))
+def f(x, n, cons):
+    sum = 0
+    for i in range(1, n+2):
+        sum += cons[-i] * pow(x, i-1)
+    return sum
+eps = 1e-6
+while r - l > eps:
+    k = (r - l) / 3.0
+    mid1, mid2 = l + k, r - k
+    if f(mid1, n, cons) < f(mid2, n, cons):
+        l = mid1
+    else:
+        r = mid2
+ans = format(l, '.5f')
+print(ans)
+\end{lstlisting}
+
+\newpage
+
+\textbf{三分法 函数 洛谷P1883}
+
+给定 $n$ 个二次函数 $f_1(x),f_2(x),\dots,f_n(x)$（均形如 $ax^2+bx+c$），设 $F(x)=\max\{f_1(x),f_2(x),...,f_n(x)\}$，求 $F(x)$ 在区间 $[0,1000]$ 上的最小值。
+
+输入格式
+
+输入第一行为正整数 $T$，表示有 $T$ 组数据。
+
+每组数据第一行一个正整数 $n$，接着 $n$ 行，每行 $3$ 个整数 $a,b,c$，用来表示每个二次函数的 $3$ 个系数，注意二次函数有可能退化成一次。
+
+输出格式
+
+每组数据输出一行，表示 $F(x)$ 的在区间 $[0,1000]$ 上的最小值。答案精确到小数点后四位，四舍五入。
+
+输入输出样例 1
+
+输入 1
+
+2
+
+1
+
+2 0 0
+
+2
+
+2 0 0
+
+2 -4 2
+
+输出 1
+
+
+0.0000
+
+0.5000
+
+
+说明/提示
+
+对于 $50\%$ 的数据，$n\le 100$。
+
+对于 $100\%$ 的数据，$T<10$，$\ n\le 10^4$，$0\le a\le 100$，$|b| \le 5\times 10^3$，$|c| \le 5\times 10^3$。
+
+\begin{lstlisting}[style = Python]
+def cal(cons, x):
+    ans = -float('inf')
+    for a, b, c in cons:
+        ans = max(ans, a * x ** 2 + b * x + c)
+    return ans
+
+eps = 1e-9
+T = int(input())
+for t in range(T):
+    n = int(input())
+    cons = []
+    for i in range(n):
+        a, b, c = map(float, input().split())
+        cons.append([a, b, c])
+    l = 0
+    r = 1000
+    while r - l > eps:
+        margin = (r - l) / 3.0
+        mid1 = l + margin
+        mid2 = r - margin
+        f1 = cal(cons, mid1)
+        f2 = cal(cons, mid2)
+        if f1 <= f2:
+            r = mid2
+        else:
+            l = mid1
+    ans = cal(cons, l)
+    print(format(ans, '.4f'))
+\end{lstlisting}
+
+\newpage
+
+\subsection{排序与排列}
+
+
 
 \end{sloppy}
 \end{document}

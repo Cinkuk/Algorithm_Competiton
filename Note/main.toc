@@ -15,3 +15,11 @@
 \contentsline {subsection}{\numberline {2.1}尺取法(双指针)}{15}{}%
 \contentsline {subsubsection}{\numberline {2.1.1}反向扫描}{15}{}%
 \contentsline {subsubsection}{\numberline {2.1.2}同向扫描}{16}{}%
+\contentsline {subsection}{\numberline {2.2}二分法}{19}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Python二分搜索库\ bisect}{19}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}整数二分}{19}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}整数二分\ 最大值最小化}{22}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}整数二分\ 最小值最大化}{23}{}%
+\contentsline {subsubsection}{\numberline {2.2.5}实数二分}{23}{}%
+\contentsline {subsection}{\numberline {2.3}三分法}{24}{}%
+\contentsline {subsection}{\numberline {2.4}排序与排列}{27}{}%

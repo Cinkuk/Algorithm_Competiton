@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  26 FEB 2025 21:46
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.21)  3 APR 2025 17:06
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -605,7 +605,7 @@ LaTeX Font Info:    Font shape `TU/FandolSong-Regular(0)/m/sl' in size <10.53937
 (Font)              Font shape `TU/FandolSong-Regular(0)/m/it' tried instead on input line 74.
 [1
 
-] [2] [3] [4] (./chap2.aux)
+] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] (./chap2.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
@@ -616,12 +616,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 15084 strings out of 474773
- 375881 string characters out of 5757724
+ 15203 strings out of 474773
+ 380937 string characters out of 5757724
  2128839 words of memory out of 5000000
- 36974 multiletter control sequences out of 15000+600000
- 565731 words of font info for 92 fonts, out of 8000000 for 9000
+ 37094 multiletter control sequences out of 15000+600000
+ 565563 words of font info for 91 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  121i,5n,120p,364b,1391s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on chap2.pdf (4 pages).
+Output written on chap2.pdf (13 pages).
