@@ -34,3 +34,8 @@
 \contentsline {subsubsection}{\numberline {3.2.4}优化搜索顺序\ 排除等效冗余\ 洛谷1120}{35}{}%
 \contentsline {subsection}{\numberline {3.3}洪水填充}{36}{}%
 \contentsline {subsection}{\numberline {3.4}BFS与最短路径}{37}{}%
+\contentsline {section}{\numberline {4}DP基本}{38}{}%
+\contentsline {subsection}{\numberline {4.1}DP的两种编程方法}{38}{}%
+\contentsline {subsubsection}{\numberline {4.1.1}自顶向下结合记忆化}{38}{}%
+\contentsline {subsubsection}{\numberline {4.1.2}自底向上结合制表}{38}{}%
+\contentsline {subsection}{\numberline {4.2}DP的设计与实现}{39}{}%

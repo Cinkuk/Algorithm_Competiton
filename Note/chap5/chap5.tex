@@ -1,0 +1,73 @@
+\documentclass[../main]{subfiles}
+
+\begin{document}
+\begin{sloppy}
+
+
+\section{DP基本}
+
+\subsection{DP的两种编程方法}
+
+以斐波那契数列计算为例: $F_1 = F_2 = 1, F_i = F_{i-1} + F_{i-1}, i >= 3$
+
+\textbf{简单递归}
+
+\begin{lstlisting}[style = Python]
+def classic_fib(n):
+    if n == 1 or n == 2:
+        return 1
+    return classic_fib(n-1) + classic_fib(n-2)
+\end{lstlisting}
+
+\subsubsection{自顶向下结合记忆化}
+
+依然采取递归的程序结构, 但是计算返回值前先检查待求结果是否已经被计算出. 解决每一个子问题之后存储结果, 需要时直接返回已经缓存的结果.
+
+\begin{lstlisting}[style = Python]
+memo = dict()
+    def memo_fib(n):
+        global memo
+        if n == 1 or n == 2:
+            return 1
+        elif n in memo.keys():
+            return memo[n]
+        memo[n] = memo_fib(n-1) + memo_fib(n-2)
+        return memo[n]
+\end{lstlisting}
+
+\subsubsection{自底向上结合制表}
+
+规避了递归编程. 在解决大问题时先解决小问题, 逐步递推到大问题. 递推过程一般需要填写多维表格dp, 编码时会使用若干for循环体填表.
+
+\begin{lstlisting}[style = Python]
+def dp_fib(n):
+    dp = list()
+    dp.append(1)
+    dp.append(1)
+    for i in range(2, n):
+        dp.append(dp[i-2] + dp[i-1])
+    return dp[-1]
+\end{lstlisting}
+
+\begin{verbatim}
+n = 10
+print(classic_fib(n))
+print(memo_fib(n))
+print(dp_fib(n))
+>>
+55
+55
+55
+\end{verbatim}
+
+\newpage
+\subsection{DP的设计与实现}
+
+
+
+
+
+
+
+\end{sloppy}
+\end{document}
