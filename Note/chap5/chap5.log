@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.7)  9 APR 2025 01:20
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.4.7)  9 APR 2025 21:06
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -169,33 +169,45 @@ File: ctex-name-utf8.cfg 2022/07/14 v2.5.10 Caption with encoding UTF-8 (CTEX)
 File: ctex-c5size.clo 2022/07/14 v2.5.10 c5size option (CTEX)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-mac.def
 File: ctex-fontset-mac.def 2022/07/14 v2.5.10 macOS fonts definition (CTEX)
- (/usr/local/texlive/2025/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-macnew.def
-File: ctex-fontset-macnew.def 2022/07/14 v2.5.10 macOS fonts definition for El Capitan or later version (CTEX)
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-macold.def
+File: ctex-fontset-macold.def 2022/07/14 v2.5.10 macOS fonts definition for Yosemite or earlier version (CTEX)
 
 Package fontspec Info: 
 (fontspec)             Script 'CJK' not explicitly supported within font
-(fontspec)             'Songti SC Light'. Check the typeset output, and if it
-(fontspec)             is okay then ignore this warning. Otherwise a different
-(fontspec)             font should be chosen.
+(fontspec)             'STSong'. Check the typeset output, and if it is okay
+(fontspec)             then ignore this warning. Otherwise a different font
+(fontspec)             should be chosen.
 
 
 Package fontspec Info: 
-(fontspec)             Font family 'SongtiSCLight(0)' created for font 'Songti
-(fontspec)             SC Light' with options
-(fontspec)             [Script={CJK},BoldItalicFont={Kaiti SC
-(fontspec)             Bold},BoldFont={Songti SC Bold},ItalicFont={Kaiti SC}].
+(fontspec)             Could not resolve font "STKaiti/B" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STHeiti/I" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "STSong/BI" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'STSong(0)' created for font 'STSong' with
+(fontspec)             options
+(fontspec)             [Script={CJK},BoldFont={STHeiti},ItalicFont={STKaiti}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Songti SC
-(fontspec)             Light/OT:script=hani;language=dflt;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Songti SC
-(fontspec)             Bold/OT:script=hani;language=dflt;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Kaiti
-(fontspec)             SC/OT:script=hani;language=dflt;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Kaiti SC
-(fontspec)             Bold/OT:script=hani;language=dflt;"
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"STSong/OT:script=hani;language=dflt;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"STHeiti/OT:script=hani;language=dflt;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"STKaiti/OT:script=hani;language=dflt;"
 
 ))) (/usr/local/texlive/2025/texmf-dist/tex/latex/ctex/config/ctex.cfg
 File: ctex.cfg 2022/07/14 v2.5.10 Configuration file (CTEX)
@@ -616,25 +628,40 @@ Package fontspec Info:
 
 
 
-LaTeX Font Info:    Font shape `TU/SongtiSCLight(0)/m/sl' in size <10.53937> not available
-(Font)              Font shape `TU/SongtiSCLight(0)/m/it' tried instead on input line 63.
+LaTeX Font Info:    Font shape `TU/STSong(0)/m/sl' in size <10.53937> not available
+(Font)              Font shape `TU/STSong(0)/m/it' tried instead on input line 63.
 [1
 
 ]
 
-[2] (./chap5.aux)
+[2]
+
+LaTeX Font Warning: Font shape `TU/STFangsong(0)/m/it' undefined
+(Font)              using `TU/STFangsong(0)/m/n' instead on input line 164.
+
+
+
+[3]
+
+[4]
+
+[5] (./chap5.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
  ) 
 Here is how much of TeX's memory you used:
- 14846 strings out of 473832
- 371028 string characters out of 5729482
- 1030334 words of memory out of 5000000
- 37651 multiletter control sequences out of 15000+600000
- 566339 words of font info for 92 fonts, out of 8000000 for 9000
+ 14879 strings out of 473832
+ 372245 string characters out of 5729482
+ 1136294 words of memory out of 5000000
+ 37678 multiletter control sequences out of 15000+600000
+ 566371 words of font info for 96 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 119i,5n,140p,364b,1348s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 119i,6n,140p,364b,1786s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on chap5.pdf (2 pages).
+Output written on chap5.pdf (5 pages).
