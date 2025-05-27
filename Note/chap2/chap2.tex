@@ -1015,6 +1015,155 @@ else:
     print(count - k)
 \end{lstlisting}
 
+\newpage
+\subsection{ST算法 倍增法}
+
+\textbf{倍增法原理}
+
+每一步都以2倍扩展区间, 以此快速覆盖整个区间. 在编程上, 不使用\verb*|*2|, 而是利用二进制数的特性, 将一个数N用二进制展开 $N = a_0 2^0 + a_1 2^1 + \dots$, 这样, 整数n的数位只有$log_2 n$位, 以每一位作为一个跳完下一个状态的跳板, 跳板数量等同于二进制位置, 只有$log_2 n$
+
+\textbf{ST算法}
+
+ST算法是用于求解RMQ(Range Minimum/Maximum Query, 区间最值查询)的算法, 基于倍增法原理, 适用于\textbf{静态空间}.
+
+ST算法的基本思想: 对于一个区间[a, b], 区间上的最值由两个子区间[c, d], [e, f]决定, 且$[c, d] \vee [e, f] = [a, b]$. 即$min\{[a, b]\} = min\{min\{[c, d]\}, min\{[e, f]\}\}$
+
+\textbf{Procedure}
+
+1. 将数列按照倍增法划分为多个小区间. 
+
+第一组区间长度为1; 第二组区间长度为2; 第三组区间长度为4, 以此类推. 每一组区间中, 第i+1个区间的左端点是第i个区间的左端点+1.
+
+以此可以通过不同组的区间, 递推出每一组子区间的最值. 例如, 第三组第一个子区间\{1, 2, 3, 4\}可以通过第二组的\{1, 2\}\{3, 4\}递推得到, 且有递推公式.
+
+\begin{verbatim}
+min: dp[s][k] = min{dp[s][k-1], dp[s + 1 << (k-1)][k-1]}
+max: dp[s][k] = max{dp[s][k-1], dp[s + 1 << (k-1)][k-1]}
+\end{verbatim}
+
+其中, dp[s][k]表示左端点为s, 区间长度为$2^k$的区间最值, \verb|1 << (k-1|表示$2^{k-1}$
+
+2. 查询任意区间的最值
+
+对于区间[L, R], 为保证覆盖, 需要两个长度为x的子区间, 且满足$x \leq len,\ 2x \geq len$. 
+
+计算dp, 根据dp[s][k]定义, $2^k = x$, 因此$k = \lfloor log_2(len) \rfloor$
+
+区间[L, R]的最小值, 为覆盖其的小区间的最小值, 即
+
+\verb|min = min(dp_min[L][k], dp_min[R - (1 << k) + 1][k])|
+
+\verb|max = max(dp_max[L][k], dp_max[R - (1 << k) + 1][k])|
+
+
+\textbf{模版 洛谷P2880}
+
+给定一个包含n个整数的数列和q个区间查询, 查询区间内最大值和最小值的差.
+
+Input: 第一行输入n, q. 接下来的n行, 每行输入一个整数$h_i$; 再加下来q行, 每行输入两个整数a b, 表示一个区间查询.
+
+\begin{lstlisting}[style = Python]
+from math import log2
+n, q = map(int, input().split())
+# maximum of k
+p = int(log2(n))
+# RMQ table, 1-index
+dp_min = [[0 for _ in range(p+1)]for _ in range(n + 1)]
+dp_max = [[0 for _ in range(p+1)]for _ in range(n + 1)]
+# read in list, 1-index
+a = [-1]
+for i in range(n):
+    a.append(int(input()))
+
+# initial dp table
+# len of sub-range is 1
+for i in range(1, n+1):
+    dp_min[i][0] = a[i]
+    dp_max[i][0] = a[i]
+# len of sub-range > 1
+for k in range(1, p+1):
+    for s in range(1, n):
+        if s + (1 << k) > n + 1:
+            break
+        dp_min[s][k] = min(dp_min[s][k-1], dp_min[s + (1 << (k-1))][k-1])
+        dp_max[s][k] = max(dp_max[s][k-1], dp_max[s + (1 << (k-1))][k-1])
+
+# RMQ
+for _ in range(q):
+    L, R = map(int, input().split())
+    k = int(log2(R - L + 1))
+    max_query = max(dp_max[L][k], dp_max[R - (1 << k) + 1][k])
+    min_query = min(dp_min[L][k], dp_min[R - (1 << k) + 1][k])
+    print(max_query - min_query)    
+\end{lstlisting}
+
+\newpage
+\subsection{离散化}
+
+离散化适用场景: 给出一个数列, 问题要求关注数字的相对大小, 数字的绝对大小不重要. 此时使用离散化, 在列表中, 使用数字的相对大小排序取代数字的数值.
+
+\textbf{Procedure}
+
+1. 排序
+
+2. 离散化: 将排序后的数列元素从1开始分配数值
+
+3. 归位: 将数列元素重新分配回原始位置
+
+\begin{lstlisting}[style = Python]
+from random import randint
+
+a = [] # element[0]: val, element[1]: original place
+for i in range(10):
+    a.append([randint(1, 5000), i])
+
+print('original list:')
+print(a)
+
+# main function
+# sort
+a.sort(key=lambda x : x[0])
+n = len(a)
+# generate new list
+newa = [0 for _ in range(n)]
+for i in range(n):
+    newa[a[i][1]] = i + 1
+
+print('processed list:')
+print(newa)
+
+# IF: same value should be corresponded to the same processed value
+print('---------------same value -> same order value---------------')
+a = [[13, 0],[65, 1], [8, 2], [13, 3], [93, 4], [197, 5]]
+print('original list')
+print(a)
+a.sort(key=lambda x : x[0])
+n = len(a)
+# generate new list
+newa = [0 for _ in range(n)]
+for i in range(n):
+    if i > 0 and a[i][0] == a[i-1][0]:
+        newa[a[i][1]] = newa[a[i-1][1]]
+        continue
+    newa[a[i][1]] = i + 1
+print('processed list:')
+print(newa)
+\end{lstlisting}
+
+\begin{verbatim}
+original list:
+[[2700, 0], [1266, 1], [1999, 2], [3798, 3], [1139, 4], [3214, 5], 
+[4171, 6], [4597, 7], [3040, 8], [1135, 9]]
+processed list:
+[5, 3, 4, 8, 2, 7, 9, 10, 6, 1]
+---------------same value -> same order value---------------
+original list
+[[13, 0], [65, 1], [8, 2], [13, 3], [93, 4], [197, 5]]
+processed list:
+[2, 4, 1, 2, 5, 6]
+\end{verbatim}
+
+
 
 
 \end{sloppy}
