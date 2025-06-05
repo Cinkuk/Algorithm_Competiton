@@ -83,7 +83,7 @@ print(dp_fib(n))
 
 \ \ 此情况下的最终容量应为$max\{(1),\ (2)\}$
 
-\subsubsection{递推实现}
+\subsubsection{递推实现\ 0/1背包问题}
 
 \begin{lstlisting}[style = Python]
 N, C = map(int, input().split())
@@ -144,7 +144,7 @@ print(f'\nfinal result: {dp[N][C]}')
 
 但是滚动数组损失了中间信息, 最终将无法输出具体的方案.
 
-\subsubsection{交替滚动}
+\subsubsection{交替滚动\ 0/1背包问题}
 
 dp定义为$dp[2][j]$, 行号使用new和old分别指向当前计算的行和上一行.
 
@@ -179,7 +179,7 @@ for i in range(1, N+1):
 print(dp[new][C])
 \end{lstlisting}
 
-\subsubsection{自我滚动}
+\subsubsection{自我滚动\ 缺, 待补}
 
 \textbf{缺, 待补}
 
@@ -190,6 +190,84 @@ print(dp[new][C])
 
 同前述, 略
 
+\newpage
+\subsubsection{分组背包问题}
+
+将物体分为n组, 第i组第k个物体的体积为$c[i][k]$, 价值为$v[i][k]$, \textbf{每组内的物体冲突, 每组内最多只能选出一个物体放进背包}; 背包容量为C, 问: 如何装物体能使得背包内物体总价值最大.
+
+将前i组物体装进容量为j的背包.
+\begin{verbatim}
+dp[i][j] = max{
+                dp[i][j], // 第i组不选物品, dp[i][j]为初始值, 一般初始化为dp[i-1][j]
+                max{      // 第i组选择物品
+                    dp[i-1][j],
+                    dp[i-1][j-c[i][k]] + v[i][k]} }
+\end{verbatim}
+
+\textbf{hdu 1712}
+
+某这个学期可以选择N门课, 他只想学M天, 每门课的学分不同, 如何安排课程使得学分最多. 
+
+有多个测试, 每个测试的第一行输入N M, 接下来N行每行输入M个数字, 表示矩阵$A[i][j]$, 表示第i门课学j天能得到的学分. 若N=M=0, 测试结束. 
+
+对每个测试, 输出最大学分数.
+
+\begin{lstlisting}[style = Python]
+def swap(a, b):
+return b, a
+
+while True:
+N, M = map(int, input().split())
+if N == 0 and M == 0:
+    break
+
+a = [None for _ in range(N)]
+for i in range(N):
+    line = list(map(int, input().split()))
+    a[i] = line
+
+dp = [[0 for _ in range(M+1)]for _ in range(2)]
+new = 0
+old = 1
+for i in range(N):
+    new, old = swap(new, old)
+    for j in range(M+1):
+        for k in range(1, M+1):
+            if k > j:
+                break
+            else:
+                dp[new][j] = max(dp[old][j], dp[old][j-k] + a[i][k-1], dp[new][j-1], dp[new][j])
+
+print(dp[new][M])
+\end{lstlisting}
+
+\begin{center}
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{verbatim}
+        Sample Input
+        2 2
+        1 2
+        1 3
+        2 2
+        2 1
+        2 1
+        2 3
+        3 2 1
+        3 2 1
+        0 0
+    \end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{verbatim}       
+        Sample Output
+        3
+        4
+        6
+    \end{verbatim}
+\end{minipage}
+\end{center}
+
+\newpage
 \subsubsection{多重背包问题\ 二进制拆分优化}
 
 在0/1背包问题的基础上, 每种物体除了重量w, 价值v外, 还有一个属性数量m. 即同一种物体可以在背包中放置多个.
@@ -202,7 +280,7 @@ print(dp[new][C])
 
 原理: 任何数都可以分解为若干2的指数与余数的和, 即$x = (\Sigma{2^i}) + r$, 因此, 对于同一种物体, 在背包中放置x个, 等价于从经过二进制分解的多个物体组合中放置数量恰好的几个组合. 
 
-问题转化思路为: 一种物体可以放置多个 $\implies$ 将十进制的组合问题转换为2进制数的组合问题以减少组合数量, 减少运行时间 $\implies$ \textbf{二进制分解优化} $\implies$ 新的物品(重量, 价值)组合 $\implies$ 0/1背包问题
+问题转化思路为: 一种物体可以放置多个 $\implies$ 将十进制的组合问题转换为2进制数的组合问题以减少组合数量, 减少运行时间 $\implies$ \textbf{二进制分解优化} $\implies$ 新的物品(重量, 价值)组合 $\implies$ \textbf{0/1背包问题}
 
 \textbf{洛谷 P1776}
 
@@ -256,6 +334,8 @@ for i in range(n):
             
 print(dp[new][W])
 \end{lstlisting}
+
+
 
 \end{sloppy}
 \end{document}
