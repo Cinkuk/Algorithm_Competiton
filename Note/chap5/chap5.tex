@@ -276,7 +276,7 @@ print(dp[new][M])
 
 \textbf{二进制拆分优化}: 将每种物体的数量从小到大拆分为$2^0+2^1+...$的组合, 若不能恰好被2的指数拆分, 最后一个为余数. 假设一种物体有15个, 将15按照二进制分解为$15=1+2+4+8$; 假如有16个, 拆分为$1+2+4+8+1$, 拆分到8时, 当前组合的数量为$2^3$, 剩余$1<2 \cdot 2^3$, 直接作为最后一个组合的数量.
 
-将每一种物体都进行上述拆分, 得到的多组物体视作新的需要放入背包的物体, 进行简单的0/1背包问题求解.
+将每一种物体都进行上述拆分, 得到的多组物体视作新的需要放入背包的物体, 转化为0/1背包问题求解.
 
 原理: 任何数都可以分解为若干2的指数与余数的和, 即$x = (\Sigma{2^i}) + r$, 因此, 对于同一种物体, 在背包中放置x个, 等价于从经过二进制分解的多个物体组合中放置数量恰好的几个组合. 
 
@@ -293,7 +293,6 @@ print(dp[new][M])
 \begin{lstlisting}[style = Python]
 def swap(a, b):
     return b, a
-
 n, W = map(int, input().split())
 a = [None for _ in range(n)]
 for i in range(n):
@@ -301,7 +300,6 @@ for i in range(n):
     a[i] = obj
 new_w = []
 new_v = []
-
 for i in range(n):
     v, w, m = a[i]
     j = 1
@@ -334,6 +332,114 @@ for i in range(n):
             
 print(dp[new][W])
 \end{lstlisting}
+
+\newpage
+\subsubsection{最长公共子序列\ Longest Common Subsequence, LCS}
+
+\textbf{子序列}: 是在一个给定序列中删去若干元素得到的序列. 子序列与子串不同, \textbf{子串}要求元素在原序列中是连续的, 子序列不要求连续. 
+
+\textbf{公共子序列}: 如果一个序列Z, 同时是X和Y两个序列的子序列, 则Z是X和Y的公共子序列.
+
+定义$dp[i][j]$是序列X的前i个元素和Y的前j个元素的最长公共子序列长度. 
+
+\textbf{判别:}
+
+\begin{lstlisting}[style = Pseudocode, escapeinside=||]
+IF |$x_i == y_j$| THEN
+    dp[i][j] = dp[i-1][j-1] + 1
+ELSE
+    dp[i][j] = max(dp[i][j-1], dp[i-1][j])
+ENDIF
+\end{lstlisting}
+
+\begin{lstlisting}[style = Python]
+a, b = map(str, input().split())
+m, n = len(a), len(b)
+dp = [[0 for _ in range(n+1)]for _ in range(m+1)]
+
+for i in range(m):
+    for j in range(n):
+        if a[i] == b[j]:
+            dp[i+1][j+1] = dp[i][j] + 1
+        else:
+            dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1])
+
+print(dp[m][n])
+\end{lstlisting}
+
+\subsubsection{最长递增子序列, Longest Increasing Subsequence, LIS}
+
+定义: dp[i]为以第i个数结尾的最长递增子序列的长度.
+
+\begin{lstlisting}[style = Pseudocode, escapeinside=||]
+IF |$0 < i < j,\ A_i < A_j$| THEN
+    dp[i] = max{dp[j]} + 1
+ENDIF 
+\end{lstlisting}
+
+\begin{lstlisting}[style = Python]
+a = list(map(int, input().split()))
+n = len(a)
+dp = [0 for _ in range(n)]
+
+for i in range(n):
+    for j in range(i+1, n):
+        if a[i] >= a[j]:
+            dp[j] = max(dp[:i+1]) + 1
+
+print(dp[-1])
+\end{lstlisting}
+
+\begin{verbatim}
+>> 389 207 155 300 299 170 158 65
+<< 6
+\end{verbatim}
+
+\newpage
+\subsubsection{最短编辑距离}
+
+给定两个单词word1, word2, 求将word1转换为word2所需要的最少的操作数. 允许的操作有: 1) 删除一个字符; 2) 插入一个字符; 3)替换一个字符.
+
+令word1, word2的长度分别为m, n. 定义dp[i][j]为将word1的前i个字符修改为word2的前j个字符所需要的最小修改步骤. 为了便于表示, 统一使用1-index
+\begin{lstlisting}[style = Pseudocode]
+IF word1[i] == word2[j] THEN
+    dp[i][j] = dp[i-1][j-1]
+ELSE
+    dp[i][j] = min(
+        dp[i-1][j-1], // 替换一个字符
+        dp[i][j-1],   // 将word2的尾字符插入word1的末尾
+        dp[i-1][j]    // 删除word1的尾字符
+        ) + 1
+ENDIF
+\end{lstlisting}
+
+\textbf{模版  洛谷P2758}
+\begin{lstlisting}[style = Python]
+word1 = str(input())
+word2 = str(input())
+m, n = len(word1), len(word2)
+dp = [[0 for _ in range(n+1)]for _ in range(m+1)]
+for i in range(m):
+    dp[i+1][0] = dp[i][0] + 1
+for i in range(n):
+    dp[0][i+1] = dp[0][i] + 1
+
+for i in range(m):
+    for j in range(n):
+        if word1[i] == word2[j]:
+            dp[i+1][j+1] = dp[i][j]
+        else:
+            dp[i+1][j+1] = min(dp[i][j], dp[i][j+1], dp[i+1][j]) + 1
+
+print(dp[m][n])
+\end{lstlisting}
+
+\subsubsection{最小划分}
+
+给出一个正整数数组, 将其划分为$S_1, S_2$, 使得$\Sigma S_1$与$\Sigma S_2$之差的绝对值最小.
+
+e.g. A = [1, 6, 5, 11] -> S1 = [1, 6, 5], S2 = [11], 结果为: |12 - 11| = 1
+
 
 
 
