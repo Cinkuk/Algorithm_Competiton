@@ -434,11 +434,334 @@ for i in range(m):
 print(dp[m][n])
 \end{lstlisting}
 
+\newpage
 \subsubsection{最小划分}
 
 给出一个正整数数组, 将其划分为$S_1, S_2$, 使得$\Sigma S_1$与$\Sigma S_2$之差的绝对值最小.
 
 e.g. A = [1, 6, 5, 11] -> S1 = [1, 6, 5], S2 = [11], 结果为: |12 - 11| = 1
+
+记$S_1, S_2$的和分别为sum1, sum2. 记原数组的和为total, 则输出$|sum1 - sum2| = |sum1 - (total - sum1)| = |2sum1 - total|$, 输出最小为0, 此时有$sum1 = \frac{total}{2}$. 则问题转换为\textbf{寻找一个划分, 使得其和不超过total / 2, 且尽可能大}. 则问题转换为01背包问题: \textbf{背包容量为total / 2, 现在从数组中挑选数字放入, 数字本身=体积=价值, 求出背包最大价值}.
+
+定义dp[i][j]: 在前i个数字中, 子数组和不超过j的最大划分之和.
+
+\begin{lstlisting}[style = Python]
+a = list(map(int, input().split()))
+total = sum(a)
+edge = int(total / 2)
+n = len(a) 
+dp = [[0 for _ in range(edge + 1)]for _ in range(n+1)]
+for i in range(1, n+1):
+    for j in range(edge+1):
+        if a[i-1] <= j:
+            dp[i][j] = max(dp[i-1][j], dp[i-1][j - a[i-1]] + a[i-1])
+        else:
+            dp[i][j] = dp[i-1][j]
+
+sum1 = dp[n][edge]
+ans = abs(2 * sum1 - total)
+print(ans)    
+\end{lstlisting}
+
+% new two columns
+\begin{center}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 1 6 11 5
+<< 1
+notes: [11], [1, 6, 5]
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 1 2 3 4
+<< 0
+notes: [1, 4], [2, 3]
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\end{center}
+
+\subsubsection{行走问题\ 斐波那契数列应用}
+
+给定一个整数n, 表示要走到的距离为n. 每一步可以走的距离为1-3, 求出要走到n, 有多少种走法.
+
+分析: 走到0: 1种; 1: 1种; 2: 2种(2, 1+1); 3: 4种(3, 1+2, 2+1, 1+1+1).
+
+进一步分析: 当距离$i \leq 3$时: 可能的状态及方案为: 
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{c|c}
+        \toprule
+        当前可能的状态 & 对应当前要走的步数 \\
+        \midrule
+        i - 1 & 1 \\
+        i - 2 & 2 \\ 
+        i - 3 & 3 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+多种可能状态, 每种状态有一个对应操作, 实际上是类斐波那契数列的应用. 
+
+定义dp[i]为走到距离i的方案数. 
+\begin{verbatim}
+dp[0] = 0; dp[1] = 0; dp[2] = 2; dp[i] = dp[i-1] + dp[i-2] + dp[i-3], i >= 3
+\end{verbatim}
+
+\begin{lstlisting}[style = Python]
+n = int(input())
+# 统一并简化初始化dp表格代码
+_n = n if n >= 2 else 2
+dp = [0 for _ in range(_n+1)]
+dp[0] = 1
+dp[1] = 1
+dp[2] = 2
+for i in range(3, n+1):
+    dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
+print(dp[n])
+\end{lstlisting}
+
+\newpage
+\subsubsection{子集合问题\ Subset Sum Problem}
+
+给定一个非负整数集合S, 一个整数M, 确定S中是否存在一个子集合S1, 使得S1的和为M, 若有, 输出该子集合.
+
+定义dp[i][j]: 前i个元素中, 是否存在一个子集合使得子集合的和为j. 设集合元素为S[i], 1-index.
+\begin{verbatim}
+S[i] >  j: 不能放入, dp[i][j] = dp[i-1][j]
+S[i] <= j: 可以放入, dp[i][j] = judge(dp[i-1][j], // 不放入子集合
+                                      dp[i-1][j-S[i]] //放入子集合
+                                      )
+\end{verbatim}
+
+函数judge作用: 输入两个布尔值a, b, 返回 a || b (只要有一个true就返回true)
+
+\begin{lstlisting}[style = Python]
+def judge(a, b):
+    return a or b
+
+s = list(map(int, input().split()))
+n = len(s)
+M = int(input())
+dp = [[False for _ in range(M+1)]for _ in range(n+1)]
+dp[0][0] = True
+
+for i in range(1, n+1):
+    for j in range(M+1):
+        if s[i-1] <= j:
+            dp[i][j] = judge(dp[i-1][j], dp[i-1][j-s[i-1]])
+        else:
+            dp[i][j] = dp[i-1][j]
+
+# output conclusion
+print(dp[n][M])
+#for item in dp:
+#    print(item)
+# rebuild trace
+rst = []
+while M > 0:
+    i = n
+    while i > 0:
+        # 寻找实际选入的元素
+        if dp[i][M]:
+            # 第i个元素大于M, 未被实际选入, 继续回溯
+            if s[i-1] > M:
+                i -= 1
+            # 选入
+            else:
+                rst.append((i-1, s[i-1]))
+                M -= s[i-1]
+                break
+rst.reverse()
+for item in rst:
+    print(f'index: {item[0]}, value: {item[1]}')
+\end{lstlisting}
+
+\begin{verbatim}
+>> 6 2 9 8 3 7
+>> 5
+<< True
+<< index: 1, value: 2
+<< index: 4, value: 3
+\end{verbatim}
+
+\subsubsection{最优游戏策略}
+
+问题: 有n堆硬币排成一列, 其价值分别记为$v_1, v_2, \dots, v_n$, n为偶数. 两个人轮流拿走一堆, 每个人只能拿剩下硬币中的第一堆或者最后一堆. 求出先手可以拿到的最大价值.
+
+例: 有V=[8, 15, 3, 7]. 使得先手获得价值最多的前提下, 两位玩家轮流拿取的价值为: 7 -> 8 -> 15 -> 3, 其中先手分别拿取7和15, 最大价值为22. 同时可见, 本题\textbf{不能使用贪心算法}, 若使用贪心算法, 拿取顺序为8 -> 15 -> 7 -> 3, 先手获得的价值为8 + 7=15.
+
+定义dp[i][j]: 在第i到第j堆硬币中, 先手能拿到的最大值.
+
+分析: 对于第i到第j堆硬币, 先手可以选择第i或者第j堆, 以先手后手分别拿取一次作为一轮, 对手在每次拿取中会选择对先手不利的拿法. 有以下可能状态及结果:
+\begin{verbatim}
+先手拿取     剩下       对手拿取     剩下         下一轮先手拿取
+   i       [i+1, j]        i+1     [i+2, j]      min{v[i+2], v[j]}
+                            j      [i+1, j-1]    min{v[i+1], v[j-1]}
+   j       [i, j-1]         i      [i+1, j-1]    min{v[i+1], v[j-1]}
+                           j-1     [i, j-2]      min{v[i], v[j-2]}
+\end{verbatim}
+
+根据对方的选择所剩下的硬币, 使用dp, 先手之后可以拿取的最大总价值, 为剩下硬币首末索引号对应的dp表值. 最优因此有如下状态转移方程:
+\begin{verbatim}
+if j - i + 1 > 2: // 剩余三个及以上
+dp[i][j] = max(v[i] + min(dp[i+2][j], dp[i+1][j-1]), // pick i
+               v[j] + min(dp[i+1][j-1], dp[i] [j-2])) // pick j
+if i == j: // 剩余一个
+dp[i][j] = v[i]
+if j - i + 1 == 2:  // 剩余两个
+dp[i][j] = max(v[i], v[j])
+\end{verbatim}
+
+由于dp[i][j]在需要子结构的最优结果时候会读取dp[m][n], 由以上分析结果: m >= i, 因此, 填表顺序为:
+\begin{lstlisting}[style = Pseudocode]
+FOR i FROM n-1 TO 0:
+    FOR j FROM 0 TO n-1:
+        filling_dp_table
+    ENDFOR
+ENDFOR
+\end{lstlisting}
+
+\begin{lstlisting}[style = Python]
+v = list(map(int, input().split()))
+n = len(v)
+dp = [[0 for _ in range(n)]for _ in range(n)]
+
+for i in range(n-1, -1, -1):
+    for j in range(n):
+        if i > j:
+            continue
+        if i == j:
+            dp[i][j] = v[i]
+        elif j - i + 1 == 2:
+            dp[i][j] = max(v[i : j+1])
+        else:
+            dp[i][j] = max(v[i] + min(dp[i+2][j], dp[i+1][j-1]),
+                            v[j] + min(dp[i+1][j-1], dp[i][j-2]))
+
+print(dp[0][n-1])
+\end{lstlisting}
+% new two columns
+\begin{center}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 5 3 7 10
+<< 15
+notes: 10 -> 7 -> 5 -> 3: 10 + 5 = 15
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 8 15 3 7
+<< 22
+notes: 7 -> 8 -> 15 -> 3: 7 + 15 = 22
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\end{center}
+
+\newpage
+\subsubsection{矩阵链乘法}
+
+问题: 矩阵A, B的尺寸分别为$m \times n,\ n \times u$, 矩阵相乘, 所得尺寸为$m \times u$, 所需要的执行的二项乘法次数为$m \cdot n \cdot u$. 给定一系列矩阵, 通过括号将矩阵分组相乘, 求出最少的二项乘法次数.
+
+Notes: $ABC = (AB)C = A(BC)$
+
+输入结构: 一个数组p[], 矩阵i的尺寸为$p[i-1] \times p[i],\ i \geq 1$
+
+例: p=[40, 20, 30, 10, 30], 表示矩阵尺寸分别为$40 \times 20, 20 \times 30, 30 \times 10, 10 \times 30$.
+
+顺序相乘的二项乘法次数为: $40 \times 20 \times 30 + 40 \times 30 \times 10 + 40 \times 10 \times 30 = 48000$.
+
+将其划分为$(A(BC)D)$, 乘法次数为: $20 \times 30 \times 10 + 40 \times 20 \times 10 + 40 \times 10 \times 30 = 26000$
+
+
+根据结合律: $A_i A_{i+1} \dots A_j = (A_i \dots A_k)(A_{k+1} \dots A_j)$, 必定存在一个k, 使得这个划分方案的乘法次数最小, 将这个方案记为$A_{i, j}$, 对应的$k$记为$k_{i, j}$.
+
+用dp[i][j]表示$A_{i, j}$, 构成递推关系:
+\begin{equation*}
+    dp[i][j] = 
+    \begin{cases}
+    0, i = j \\
+    min\{dp[i][k] + dp[k+1][j] + p_{i-1} p_k p_j\}, i \leq k < j
+    \end{cases}
+\end{equation*}
+
+编码使用区间dp模版:
+\begin{lstlisting}[style = Pseudocode]
+FOR len FROM 2 TO n: //区间长度
+    FOR i FROM 1 TO n - len + 1: // 区间起点
+        j = i + len - 1 // 区间终点
+        dp[i][j] = INF // 初始化为极大值
+        FOR k FROM i TO j - 1: // 逐点划分
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+1][j] + w[i][j])
+        ENDFOR
+    ENDFOR
+ENDFOR
+\end{lstlisting}
+
+\begin{lstlisting}[style = Python]
+p = list(map(int, input().split()))
+n = len(p) - 1 # amount of matries
+dp = [[0 for _ in range(n)]for _ in range(n)]
+s = [[0 for _ in range(n)]for _ in range(n)] # split point
+
+for l in range(2, n+1): # 区间长度
+    for i in range(n - l + 1): # 区间起点
+        j = i + l - 1 # 区间终点
+        dp[i][j] = float('inf') # 初始化为极大值
+        for k in range(i, j): # 逐点划分
+            cost = dp[i][k] + dp[k+1][j] + p[i] * p[k+1] * p[j+1] # 计算乘法次数
+            if cost < dp[i][j]:
+                dp[i][j] = cost
+                s[i][j] = k # 记录划分点
+# 递归输出括号方案
+def build(i, j):
+    global dp
+    if i == j:
+        return f'{p[i]}*{p[i+1]}'
+    else:
+        k = s[i][j]
+        left = build(i, k)
+        right = build(k+1, j)
+        return f'({left} {right})'
+    
+print('乘法次数:', dp[0][n-1])
+print(build(0, n-1))
+\end{lstlisting}
+% new two columns
+\begin{center}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 10 1 50 50 20 5
+<< 乘法次数: 3650
+<< (10*1 (((1*50 50*50) 50*20) 20*5))
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\begin{center}
+    \begin{verbatim}
+>> 40 20 30 10 30
+<< 乘法次数: 26000
+<< ((40*20 (20*30 30*10)) 10*30)
+    \end{verbatim}
+\end{center}
+\end{minipage}
+\end{center}
+
+
+
+
+
 
 
 
