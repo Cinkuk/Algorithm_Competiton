@@ -373,19 +373,19 @@ print(dp[m][n])
 
 \begin{lstlisting}[style = Pseudocode, escapeinside=||]
 IF |$0 < i < j,\ A_i < A_j$| THEN
-    dp[i] = max{dp[j]} + 1
+    dp[j] = max{dp[i]} + 1
 ENDIF 
 \end{lstlisting}
 
 \begin{lstlisting}[style = Python]
 a = list(map(int, input().split()))
 n = len(a)
-dp = [0 for _ in range(n)]
+dp = [1 for _ in range(n)]
 
 for i in range(n):
-    for j in range(i+1, n):
-        if a[i] >= a[j]:
-            dp[j] = max(dp[:i+1]) + 1
+    for j in range(i):
+        if a[j] >= a[i]:
+            dp[i] = max(dp[i], dp[j] + 1)
 
 print(dp[-1])
 \end{lstlisting}
